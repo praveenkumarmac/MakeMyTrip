@@ -35,14 +35,14 @@ public class BusBooking {
 		driver.get("https://www.makemytrip.com/");
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 		Thread.sleep(4000);
-		WebElement g = driver.findElement(By.xpath("//iframe[@id='webklipper-publisher-widget-container-notification-frame']"));
-		driver.switchTo().frame(g);
+		WebElement frame = driver.findElement(By.xpath("//iframe[@id='webklipper-publisher-widget-container-notification-frame']"));
+		driver.switchTo().frame(frame);
 		driver.findElement(By.xpath("//img[@id='second-img']")).click();
-		String pWin = driver.getWindowHandle();
-		Set<String> allWin = driver.getWindowHandles();
-		for(String x : allWin) {
-			if(!x.equals(allWin)) {
-				driver.switchTo().window(pWin);
+		String window = driver.getWindowHandle();
+		Set<String> windows = driver.getWindowHandles();
+		for(String eachWindow : windows) {
+			if(!eachWindow.equals(windows)) {
+				driver.switchTo().window(window);
 			}
 		}
 		driver.findElement(By.xpath("//span[@class='commonModal__close']")).click();
@@ -54,65 +54,65 @@ public class BusBooking {
 		driver.findElement(By.xpath("//span[text()='Bangalore, Karnataka']")).click();
 		driver.findElement(By.xpath("//div[@aria-label='Thu Jun 06 2024']")).click();
 		driver.findElement(By.xpath("//button[@id='search_button']")).click();
-		List<String> l1 = new LinkedList<>();
-		List<String> l2 = new LinkedList<>();
-		List<String> l3 = new LinkedList<>();
-		List<String> l4 = new LinkedList<>();				
-		File f = new File("C:\\Users\\PRAVEEN\\Desktop\\PRAVEEN1\\ProjectMakeMyTripTask\\ProjectMakeMyTripTask.xlsx");		
-		XSSFWorkbook w = new XSSFWorkbook();
-		XSSFSheet s = w.createSheet("Sheet1");
-		XSSFRow row = s.createRow(0);
-		XSSFCell cell = row.createCell(0);
+		List<String> lst1 = new LinkedList<>();
+		List<String> lst2 = new LinkedList<>();
+		List<String> lst3 = new LinkedList<>();
+		List<String> lst4 = new LinkedList<>();				
+		File file = new File("C:\\Users\\PRAVEEN\\Desktop\\PRAVEEN1\\ProjectMakeMyTripTask\\ProjectMakeMyTripTask.xlsx");		
+		XSSFWorkbook workBook = new XSSFWorkbook();
+		XSSFSheet sheet = workBook.createSheet("Sheet1");
+		XSSFRow excelRow = sheet.createRow(0);
+		XSSFCell excelCell = excelRow.createCell(0);
 		List<WebElement> buses= driver.findElements(By.xpath("//p[contains(@class,'makeFlex hrtlCenter appendBottom')]"));
 		List<WebElement> deptime = driver.findElements(By.xpath("//span[contains(@class,'latoBlack blackText')]"));
 		List<WebElement> arrtime = driver.findElements(By.xpath("//span[contains(@class,'latoRegular')]"));
 		List<WebElement> farerate = driver.findElements(By.xpath("//span[@id='price']"));
 		for (int i = 0; i < buses.size(); i++) {
 			String bus = buses.get(i).getText();
-			String dep = deptime.get(i).getText();
-			String arr = arrtime.get(i).getText();
+			String depTime = deptime.get(i).getText();
+			String arrTime = arrtime.get(i).getText();
 			String fare = farerate.get(i).getText();
-			l1.add(bus);
-			l2.add(dep);
-			l3.add(arr);
-			l4.add(fare);
-			System.out.println("Bus Name: "+bus+"Departure Time: "+dep+"Arrival Time: "+arr+"Fare rate: "+fare);
+			lst1.add(bus);
+			lst2.add(depTime);
+			lst3.add(arrTime);
+			lst4.add(fare);
+			System.out.println("Bus Name: "+bus+"Departure Time: "+depTime+"Arrival Time: "+arrTime+"Fare rate: "+fare);
 			}	
-		for(int i=0; i<l1.size(); i++) {
-			Row r = s.getRow(i);
-			if (r == null) {
-				r = s.createRow(i);
+		for(int i=0; i<lst1.size(); i++) {
+			Row row = sheet.getRow(i);
+			if (row == null) {
+				row = sheet.createRow(i);
 			}
-			Cell c = r.createCell(0);
-			c.setCellValue(l1.get(i));
+			Cell cell = row.createCell(0);
+			cell.setCellValue(lst1.get(i));
 		}
-		for(int i=0; i<l2.size(); i++) {
-			Row r = s.getRow(i);
-			if (r == null) {
-				r = s.createRow(i);
+		for(int i=0; i<lst2.size(); i++) {
+			Row row = sheet.getRow(i);
+			if (row == null) {
+				row = sheet.createRow(i);
 			}
-			Cell c = r.createCell(1);
-			c.setCellValue(l2.get(i));
+			Cell cell = row.createCell(1);
+			cell.setCellValue(lst2.get(i));
 		}
-		for(int i=0; i<l3.size(); i++) {
-			Row r = s.getRow(i);
-			if (r == null) {
-				r = s.createRow(i);
+		for(int i=0; i<lst3.size(); i++) {
+			Row row = sheet.getRow(i);
+			if (row == null) {
+				row = sheet.createRow(i);
 			}
-			Cell c = r.createCell(2);
-			c.setCellValue(l3.get(i));
+			Cell cell = row.createCell(2);
+			cell.setCellValue(lst3.get(i));
 		}
-		for(int i=0; i<l4.size(); i++) {
-			Row r = s.getRow(i);
-			if (r == null) {
-				r = s.createRow(i);
+		for(int i=0; i<lst4.size(); i++) {
+			Row row = sheet.getRow(i);
+			if (row == null) {
+				row = sheet.createRow(i);
 			}
-			Cell c = r.createCell(3);
-			c.setCellValue(l4.get(i));
+			Cell cell = row.createCell(3);
+			cell.setCellValue(lst4.get(i));
 		}
-		FileOutputStream f1 = new FileOutputStream(f);
-		w.write(f1);
-		f1.close();
+		FileOutputStream fileOUtput = new FileOutputStream(file);
+		workBook.write(fileOUtput);
+		fileOUtput.close();
 		driver.findElement(By.xpath("//p[text()='Sri Renu Travels']")).click();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.findElement(By.xpath("(//span[text()='₹1999'])[5]")).click();
@@ -121,8 +121,8 @@ public class BusBooking {
 		driver.findElement(By.xpath("//input[@id='age']")).sendKeys("27");
 		WebElement male = driver.findElement(By.xpath("//span[starts-with(@class,'listingSprite male')]"));
 		male.click();
-		Boolean b = male.isDisplayed();
-		System.out.println(b);
+		Boolean value = male.isDisplayed();
+		System.out.println(value);
 		driver.findElement(By.xpath("//input[@id='dt_state_gst_info']")).click();
 		driver.findElement(By.xpath("//li[text()='Tamil Nadu']")).click();
 		driver.findElement(By.xpath("//p[text()='Confirm and save billing details to your profile']")).click();
@@ -135,5 +135,4 @@ public class BusBooking {
 		driver.findElement(By.xpath("//span[text()='Continue']")).click();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));	
 	}
-
 }
